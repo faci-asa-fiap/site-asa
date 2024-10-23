@@ -96,6 +96,23 @@ def transcribe():
     else:
         return "Arquivo não encontrado", 404
 
+@app.route('/paciente/consulta', methods=['GET'])
+@login_required
+def get_consulta():
+    consulta = get_appointments_by_cpf_dashboard(current_user.cpf)
+    return consulta,200
+
+@app.route('/paciente/consultames', methods=['GET'])
+@login_required
+def get_consulta_mes():
+    consulta = get_current_month_appointments_by_cpf(current_user.cpf)
+    return consulta,200
+
+@app.route('/paciente/dispersao', methods=['GET'])
+@login_required
+def get_dispercao():
+    consulta = get_appointments_time_type_by_cpf(current_user.cpf)
+    return consulta,200
 
 @app.route("/")
 @login_required

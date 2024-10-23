@@ -1,9 +1,54 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<!-- Tabela com rolagem no conteúdo -->
-<div class="w-[80%] h-full p-6">
-    <div class="w-full h-full flex flex-col gap-4">
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawBarChart);
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawBarChart() {
+    fetch('/paciente/consultames')
+    .then(response => response.json())
+    .then(data => {
+      var chartData = google.visualization.arrayToDataTable(data);
+
+      var options = {
+        title: 'Consultas do Mês Atual',
+        hAxis: {
+          title: 'Tipo de Consulta',
+        },
+        vAxis: {
+          title: 'Quantidade'
+        },
+        legend: { position: 'none' } 
+      };
+
+      var chart = new google.visualization.ColumnChart(document.getElementById('barchart'));
+      chart.draw(chartData, options);
+    });
+  }
+
+    function drawChart() {
+        fetch('/paciente/consulta')
+            .then(response => response.json())
+            .then(response => {
+                var data = google.visualization.arrayToDataTable(response);
+
+      var options = {
+        title: 'Tipos de Consultas'
+      };
+
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+      chart.draw(data, options);
+                return data
+            });
+    }
+    
+  </script>
+
+<div class="w-full h-full  flex flex-col gap-4 p-6 md:overflow-auto xl:flex-row">
+    <div class="w-full h-full flex flex-col gap-4 md:w-full xl:w-1/2">
         <h1 class="text-3xl font-bold">Perfil</h1>
         <form class="grid grid-cols-2 gap-6 mt-10" method="post" action="/perfil">
             <div>
@@ -21,9 +66,9 @@
             <div>
                 <label for="genero">Gênero</label>
                 <select name="gender" id="genero" class="w-full px-4 py-2 border-black border-b-2 outline-none focus:border-blue-500 transition-colors">
-                    <option value="Masculino" {% if perfil.gender == "Masculino" %}selected{% endif %}>Masculino</option>
-                    <option value="Feminino" {% if perfil.gender == "Feminino" %}selected{% endif %}>Feminino</option>
-                    <option value="Outro" {% if perfil.gender == "Outro" %}selected{% endif %}>Outro</option>
+                    <option value="Masculino" {% if perfil.gender == "masculino" %}selected{% endif %}>Masculino</option>
+                    <option value="Feminino" {% if perfil.gender == "feminino" %}selected{% endif %}>Feminino</option>
+                    <option value="Outro" {% if perfil.gender == "outro" %}selected{% endif %}>Outro</option>
                 </select>
             </div>
             {% if current_user.role == "paciente" %}
@@ -47,6 +92,14 @@
             </div>
         </form>
     </div>
+    {% if current_user.role == "paciente" %}
+    <div class="w-full flex flex-col p-4 gap-6 overflow-auto md:w-full md:overflow-none xl:w-1/2">
+        <h1 class="text-3xl font-bold">Informações</h1>
+        <div id="piechart" style="width: 100%;" class="shadow-md"></div>
+        <div id="barchart" style="width: 100%;" class="shadow-md"></div>
+    </div>
+    {% endif %}
 </div>
+
 {% endblock %}
 

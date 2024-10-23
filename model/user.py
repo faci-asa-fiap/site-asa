@@ -154,6 +154,72 @@ def get_all_appointment_by_physioterapist_and_cpf(health_cpf, cpf):
 ).sort("date_appointment", -1)
     
     return consultas
+def get_current_month_appointments_by_cpf(cpf):
+    today = datetime.now()
+    start_of_month = datetime(today.year, today.month, 1)
+    next_month = today.month + 1 if today.month < 12 else 1
+    start_of_next_month = datetime(today.year if today.month < 12 else today.year + 1, next_month, 1)
+    consultas = list(mongo.db.consulta.find({
+        "cpf": cpf,
+        "date_appointment": {
+            "$gte": start_of_month,
+            "$lt": start_of_next_month
+        }
+    }))
+    tipos_consultas = {}
+
+    for consulta in consultas:
+        tipo = consulta.get('type', 'Outro')
+        if tipo in tipos_consultas:
+            tipos_consultas[tipo] += 1
+        else:
+            tipos_consultas[tipo] = 1
+
+    data = [['Tipo de Consulta', 'Quantidade']]
+    for tipo, quantidade in tipos_consultas.items():
+        data.append([tipo, quantidade])
+    return data
+def get_appointments_time_type_by_cpf(cpf):
+    today = datetime.now()
+    start_of_month = datetime(today.year, today.month, 1)
+    next_month = today.month + 1 if today.month < 12 else 1
+    start_of_next_month = datetime(today.year if today.month < 12 else today.year + 1, next_month, 1)
+
+    consultas = list(mongo.db.consulta.find({
+        "cpf": cpf,
+        "date_appointment": {
+            "$gte": start_of_month,
+            "$lt": start_of_next_month
+        }
+    }))
+
+    data = [['Hora', 'Tipo de Consulta']]
+    for consulta in consultas:
+        hora = consulta.get('hour_appointment', '00:00')
+        tipo = consulta.get('type', 'Outro') 
+        data.append([hora, tipo])
+
+    return data
+
+def get_appointments_by_cpf_dashboard(cpf):
+    # Busca todas as consultas pelo CPF do paciente
+    consultas = list(mongo.db.consulta.find({"cpf": cpf}))
+
+    # Contador para os tipos de consultas
+    tipos_consultas = {}
+    for consulta in consultas:
+        tipo = consulta.get('type', 'Outro')
+        if tipo in tipos_consultas:
+            tipos_consultas[tipo] += 1
+        else:
+            tipos_consultas[tipo] = 1
+
+    # Preparar dados para Google Charts
+    data = [['Tipo de Consulta', 'Quantidade']]
+    for tipo, quantidade in tipos_consultas.items():
+        data.append([tipo, quantidade])
+    return data
+
 
 def get_all_appointment_by_physioterapist(cpf):
     result = mongo.db.consulta.find(

@@ -4,7 +4,7 @@
 
     <div class="flex flex-col items-center gap-4 mt-10">
         <img src="/static/logo.png" alt="Logo do asa" class="w-[20rem] h-[20rem] shadow-md">
-        <h2 class="text-2xl font-semibold">Gravador de aúdio</h2>
+        <h2 class="text-2xl font-semibold">Gravador de áudio</h2>
         <div class="flex gap-6">
             <button id="record" class="px-4 py-2 text-xl bg-blue-600 text-white rounded-md">🎤 Gravar</button>
             <button id="transcribe" disabled class="px-4 py-2 text-xl rounded-md shadow-md cursor-pointer">🔄 Transcrever</button>
@@ -14,7 +14,6 @@
             <p id="timer" class="text-lg">Tempo: 0s</p>
         </div>
     </div>
-    
 </main>
 <script>
     let isRecording = false;
@@ -111,7 +110,8 @@
         .then(response => response.text())
         .then(result => {
             statusElement.textContent = result;
-            
+            // Inicia o carregamento do VLibras
+            loadVLibrasWithRetry();
         })
         .catch(error => {
             statusElement.textContent = 'Erro ao transcrever áudio.';
@@ -119,10 +119,49 @@
         });
     }
 
-    function pluginWrapperHeight() {
-        pluginWrapper.click()
-    }
+    function loadVLibras() {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = "https://vlibras.gov.br/app/vlibras-plugin.js";
+                script.async = true;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.body.appendChild(script);
+            });
+        }
 
-    pluginWrapperHeight()
+        function initVLibras() {
+            if (window.VLibras) {
+                new window.VLibras.Widget('https://vlibras.gov.br/app');
+            } else {
+                console.error('VLibras não carregado corretamente');
+            }
+        }
+
+        function loadVLibrasWithRetry(maxRetries = 3, delay = 2000) {
+            let retries = 0;
+
+            function attempt() {
+                loadVLibras()
+                    .then(() => {
+                        console.log('VLibras carregado com sucesso');
+                        initVLibras();
+                    })
+                    .catch((error) => {
+                        console.error('Erro ao carregar VLibras:', error);
+                        retries++;
+                        if (retries < maxRetries) {
+                            console.log(`Tentando novamente em ${delay}ms...`);
+                            setTimeout(attempt, delay);
+                        } else {
+                            console.error('Falha ao carregar VLibras após várias tentativas');
+                        }
+                    });
+            }
+
+            attempt();
+        }
+
+        
 </script>
 {% endblock %}
