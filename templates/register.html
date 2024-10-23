@@ -5,14 +5,17 @@
     <h1 class="text-5xl font-bold">Cadastre-se</h1>
     <form action="/register" method="post" class="mt-4 flex flex-col gap-4">
       <!-- Usertype -->
-      <div class="flex gap-2">
-        {% for subfield in form.role %}
-        <div>
-          {{ subfield(class="form-check-input") }} 
-          {{ subfield.label }}
+      <div class="flex flex-col  gap-2 mt-2">
+        {{ form.role.label(class="text-xl font-semibold") }}
+        <div class="flex gap-4">
+          {% for subfield in form.role %}
+          <div class="form-check">
+            {{ subfield(class="form-check-input") }} {{
+            subfield.label(class="form-check-label") }}
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %} {% if form.role.errors %} {% for error in
-        form.role.errors %}
+        {% if form.role.errors %} {% for error in form.role.errors %}
         <div class="alert alert-danger" role="alert">{{ error }}</div>
         {% endfor %} {% endif %}
       </div>
@@ -76,7 +79,7 @@
         <div class="flex flex-col gap-2">
           {{ form.password.label }} {{ form.password(placeholder="*********",
           class="px-4 py-2 border-black border-b-2 outline-none
-          focus:border-blue-500 transition-colors") }} {% if
+          focus:border-blue-500 transition-colors", min="6") }} {% if
           form.password.errors %} {% for error in form.password.errors %}
           <div class="alert alert-danger" role="alert">{{ error }}</div>
           {% endfor %} {% endif %}
@@ -96,7 +99,9 @@
 
     <p class="text-center mt-3"> Já possui uma conta? <a class="blue-text" href="{{ url_for('login') }}">Entrar</a></p>
   </div>
-  <div class="w-1/2 bg-blue-500"></div>
+  <div class="w-1/2 flex items-center justify-between">
+    <video src="/static/libras/cadastro.mp4" autoplay muted loop class="w-[20rem] h-[40rem] m-auto"></video>
+  </div>
 </main>
 {% block js %}
 <script>

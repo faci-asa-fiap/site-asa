@@ -6,6 +6,8 @@ COPY ./requirements.txt /app/requirements.txt
 
 RUN pip install -r requirements.txt
 
+RUN apt-get install ffmpeg
+
 COPY . /app
 
 ENV FLASK_APP=app.py

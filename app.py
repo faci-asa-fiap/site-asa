@@ -7,6 +7,7 @@ from flask_dance.contrib.google import make_google_blueprint, google
 from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
 from flask_wtf import FlaskForm
 import random
+import whisper
 from wtforms import *
 from wtforms.validators import *
 
@@ -54,7 +55,7 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     nome = StringField('Nome', name="name", validators=[DataRequired()])
     cpf = StringField('CPF', name="cpf", validators=[DataRequired()])
-    password = PasswordField('Senha',name="password", validators=[DataRequired()])
+    password = PasswordField('Senha',name="password", validators=[DataRequired(), Length(min=6, message='A senha deve ter no mínimo 6 caracteres'), EqualTo('confirm_password', message='As senhas devem ser iguais'), Regexp(r'[a-zA-Z0-9]+', message='A senha deve conter apenas letras e números')])
     confirm_password = PasswordField('Confirme a senha',name="confirm", validators=[DataRequired(), EqualTo('password', message='As senhas devem ser iguais')])
     role = RadioField('Tipo de Usuário', name="role", choices=[('paciente', 'Paciente'), ('profissional', 'Fisioterapeuta')], validators=[DataRequired()])
     email = StringField('E-mail', name="email", validators=[DataRequired()])
@@ -62,6 +63,39 @@ class RegisterForm(FlaskForm):
     mobile = TelField('Telefone', name="mobile", validators=[DataRequired()])
     birth_date = DateField('Data de nascimento', format='%Y-%m-%d', name="birth_date", validators=[DataRequired()])
     gender = SelectField('Gênero', choices=[('masculino', 'Masculino'), ('feminino', 'Feminino'), ('outro', 'Outro')], validators=[DataRequired()])
+
+UPLOAD_FOLDER = './uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route('/fisioterapeuta/transcricao', methods=['GET', 'POST'])
+@login_required
+def transcricao():
+    return render_template('transcricao.html')
+
+@app.route("/upload", methods=["POST"])
+def upload():
+    if 'audio' in request.files:
+        audio = request.files['audio']
+        file_path = os.path.join(UPLOAD_FOLDER, audio.filename)
+        audio.save(file_path)
+        return "Áudio recebido e armazenado com sucesso!", 200
+    return "Nenhum áudio recebido", 400
+
+@app.route("/transcribe", methods=["POST"])
+def transcribe():
+    data = request.json
+    file_name = data.get('filename')
+    file_path = os.path.join(UPLOAD_FOLDER, file_name)
+
+    if os.path.exists(file_path):
+        
+        model = whisper.load_model("base")
+        result = model.transcribe(file_path)
+        transcription = result['text']
+        return transcription, 200
+    else:
+        return "Arquivo não encontrado", 404
+
 
 @app.route("/")
 @login_required
@@ -327,7 +361,7 @@ def login():
         user_type = request.form.get("usertype")
 
         if user_type is None:
-            flash("Por favor, selecione o tipo de usuário.", "erro")
+            flash("Por favor, selecione o tipo de usuário.", "error")
             return redirect(url_for('login'))
 
         valid, user_data = compare_password(cpf, password, user_type)
@@ -351,10 +385,10 @@ def login():
                 status=status  # Adiciona o campo exclusivo do profissional
             )
             login_user(user)
-            flash("Login realizado com sucesso", "sucesso")
+            flash("Login realizado com sucesso", "success")
             return redirect(url_for('perfil'))
         else:
-            flash("CPF ou senha inválidos", "erro")
+            flash("CPF ou senha inválidos", "error")
             return redirect(url_for('login'))
     
     return render_template("login.html", form=form)

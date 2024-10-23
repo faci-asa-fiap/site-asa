@@ -146,7 +146,7 @@
               <li class="text-white text-xl">Calendário</li>
             </a>
             <a
-              href="{{ url_for('list_pacientes') }}"
+              href="{{ url_for('transcricao') }}"
               class="cursor-pointer py-6 hover:bg-blue-400 px-4"
             >
               <li class="text-white text-xl">Transcrição</li>
@@ -189,7 +189,6 @@
         <div class="vw-plugin-top-wrapper"></div>
       </div>
     </div>
-    {% block js %}
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
       new window.VLibras.Widget('https://vlibras.gov.br/app');
@@ -215,6 +214,5 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7-beta.0/jquery.inputmask.min.js"></script>
-    {% endblock %}
   </body>
 </html>

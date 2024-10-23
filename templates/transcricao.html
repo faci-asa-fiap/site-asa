@@ -1,0 +1,128 @@
+{% extends "_base.html" %} {% block content %}
+<main class="flex flex-col">
+    {% set title = "Transcrição - Conversação com o paciente" %} {% include "_backbutton.html" %}
+
+    <div class="flex flex-col items-center gap-4 mt-10">
+        <img src="/static/logo.png" alt="Logo do asa" class="w-[20rem] h-[20rem] shadow-md">
+        <h2 class="text-2xl font-semibold">Gravador de aúdio</h2>
+        <div class="flex gap-6">
+            <button id="record" class="px-4 py-2 text-xl bg-blue-600 text-white rounded-md">🎤 Gravar</button>
+            <button id="transcribe" disabled class="px-4 py-2 text-xl rounded-md shadow-md cursor-pointer">🔄 Transcrever</button>
+        </div>
+        <div>
+            <p id="status"></p>
+            <p id="timer" class="text-lg">Tempo: 0s</p>
+        </div>
+    </div>
+    
+</main>
+<script>
+    let isRecording = false;
+    let mediaRecorder;
+    let chunks = [];
+    let audioFileName = '';
+    let intervalId;
+    let secondsElapsed = 0;
+
+    const recordButton = document.getElementById('record');
+    const transcribeButton = document.getElementById('transcribe');
+    const statusElement = document.getElementById('status');
+    const timerElement = document.getElementById('timer');
+    const pluginWrapper = document.querySelector('div[vw-plugin-wrapper]');
+    const Deactivate = document.querySelector('div[vw-access-button]');
+
+    recordButton.addEventListener('click', () => {
+        if (!isRecording) {
+            startRecording();
+        } else {
+            stopRecording();
+        }
+    });
+
+    transcribeButton.addEventListener('click', () => {
+        statusElement.textContent = "Transcrição em andamento...";
+        transcribeAudio();
+    });
+
+    function startRecording() {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+
+                mediaRecorder.ondataavailable = event => {
+                    chunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    clearInterval(intervalId);
+                    const audioBlob = new Blob(chunks, { type: 'audio/webm' });
+                    chunks = [];
+                    const formData = new FormData();
+                    audioFileName = 'audio_' + Date.now() + '.webm';
+                    formData.append('audio', audioBlob, audioFileName);
+
+                    fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(result => {
+                        statusElement.textContent = result;
+                        transcribeButton.disabled = false;
+                    })
+                    .catch(error => {
+                        statusElement.textContent = 'Erro ao enviar áudio.';
+                        console.error('Erro:', error);
+                    });
+                };
+
+                isRecording = true;
+                statusElement.textContent = "Gravando...";
+                secondsElapsed = 0;
+                timerElement.textContent = `Tempo: ${secondsElapsed}s`;
+
+                intervalId = setInterval(() => {
+                    secondsElapsed++;
+                    timerElement.textContent = `Tempo: ${secondsElapsed}s`;
+                }, 1000);
+
+                setTimeout(() => {
+                    if (isRecording) stopRecording();
+                }, 60000); // 1 minuto
+            });
+    }
+
+    function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+        }
+        isRecording = false;
+        statusElement.textContent = "Gravação finalizada.";
+        clearInterval(intervalId);
+    }
+
+    function transcribeAudio() {
+        fetch('/transcribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: audioFileName })
+        })
+        .then(response => response.text())
+        .then(result => {
+            statusElement.textContent = result;
+            
+        })
+        .catch(error => {
+            statusElement.textContent = 'Erro ao transcrever áudio.';
+            console.error('Erro:', error);
+        });
+    }
+
+    function pluginWrapperHeight() {
+        pluginWrapper.click()
+    }
+
+    pluginWrapperHeight()
+</script>
+{% endblock %}

@@ -156,11 +156,14 @@ def get_all_appointment_by_physioterapist_and_cpf(health_cpf, cpf):
     return consultas
 
 def get_all_appointment_by_physioterapist(cpf):
-    return mongo.db.consulta.find(
+    result = mongo.db.consulta.find(
     {
         "health_cpf": cpf
     }
 ).sort("date_appointment", -1)
+    print(result)
+    return result
+
 
 def get_all_physioterapist():
     return mongo.db.medico.find()
