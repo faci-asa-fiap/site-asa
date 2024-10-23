@@ -4,9 +4,7 @@ WORKDIR /app
 
 COPY ./requirements.txt /app/requirements.txt
 
-RUN pip install -r requirements.txt
-
-RUN apt-get install ffmpeg
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app
 
