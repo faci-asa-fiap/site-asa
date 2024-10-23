@@ -1,0 +1,54 @@
+{% extends "_base.html" %}
+
+{% block head %}
+<title>Detalhes da Consulta</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+{% endblock %}
+
+{% block content %}
+<main class="flex flex-col ml-5 w-[95%] max-md:ml-0 max-md:w-full">
+  <div class="flex flex-col w-full max-md:mt-10 max-md:max-w-full">
+    <h2 class="self-center text-4xl font-bold text-black max-md:max-w-full">Detalhes da Orientação</h2>
+    <div class="mt-12 w-full max-md:mt-10 max-md:max-w-full">
+      <div class="flex gap-5 max-md:flex-col">
+        <section class="flex flex-col w-[57%] max-md:ml-0 max-md:w-full">
+          <div
+            class="grow pl-2.5 w-full bg-white rounded-3xl shadow-[0px_5px_10px_rgba(0,0,0,0.4)] max-md:mt-10 max-md:max-w-full">
+            <div class="flex gap-5 max-md:flex-col">
+              <div class="flex flex-col w-[77%] max-md:ml-0 max-md:w-full">
+                <div
+                  class="flex flex-col items-start mt-2.5 text-2xl font-medium text-center text-black max-md:mt-10 max-md:max-w-full">
+                  <img loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/30b08e1c10043eb4e90919569be2cbe8fa1dfb15e04519733d3bda5e979078a5?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5"
+                    alt="Orientation details" class="object-contain max-w-full aspect-[4.95] w-[233px]" />
+                  <p class="mt-11 ml-14 max-md:mt-10 max-md:ml-2.5">Utilização da palmilha tal</p>
+                  <img loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/d33fa9c4b89398d21825c4fb59af1326e146350d9bf2a4606075adc412925749?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5"
+                    alt=""
+                    class="object-contain self-stretch w-full aspect-[9.71] mt-[479px] max-md:mt-10 max-md:max-w-full" />
+                </div>
+              </div>
+              <div class="flex flex-col ml-5 w-[23%] max-md:ml-0 max-md:w-full">
+                <div class="flex shrink-0 mx-auto bg-orange-600 rounded-3xl h-[694px] w-[132px] max-md:mt-9"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="flex flex-col ml-5 w-[43%] max-md:ml-0 max-md:w-full">
+          <div
+            class="flex flex-col px-14 py-7 w-full font-semibold text-black bg-white rounded-3xl shadow-[0px_5px_10px_rgba(0,0,0,0.4)] max-md:px-5 max-md:mt-10 max-md:max-w-full">
+            <h3 class="ml-8 text-3xl font-bold max-md:mr-1.5 max-md:ml-2.5">Editar a Orientação</h3>
+            <textarea class="mt-5 text-xl h-80">Utilize Salompas em adesivo sempre que sentir dores agudas.</textarea>
+            <button
+              class="self-center px-16 pt-4 pb-7 mt-96 max-w-full text-3xl text-white whitespace-nowrap bg-blue-800 rounded-[40px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] w-[220px] max-md:px-5 max-md:mt-10">Editar</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

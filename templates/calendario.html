@@ -1,0 +1,79 @@
+{% extends "_base.html" %}
+
+{% block head %}
+<title>ASA</title>
+<!-- Link do Tailwind via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    function selectDate(element) {
+        // Remove a classe 'active' de todas as datas
+        document.querySelectorAll('.week-days .date').forEach(div => {
+            div.classList.remove('active');
+        });
+        // Adiciona a classe 'active' à data clicada
+        element.classList.add('active');
+    }
+
+    function selectAppointment(element) {
+        // Remove a classe 'active' de todos os compromissos
+        document.querySelectorAll('.appointments .appointment').forEach(tr => {
+            tr.classList.remove('active');
+        });
+        // Adiciona a classe 'active' ao compromisso clicado
+        element.classList.add('active');
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        flatpickr(".date-picker-input", {
+            dateFormat: "d M Y",
+            defaultDate: new Date(),
+            onChange: function(selectedDates, dateStr, instance) {
+                // Atualize a interface ou faça algo com a data selecionada
+                console.log(dateStr);
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<header>
+    <div class="date-picker">
+        <i class="fas fa-calendar-alt"></i>
+        <input type="text" class="date-picker-input" value="{{ today_date }}" readonly>
+    </div>
+</header>
+<div class="calendar">
+    <div class="week-days">
+        {% for date in week_dates %}
+        <div class="{% if date == today_date %}active{% endif %}" onclick="selectDate(this)">
+            {{ date.split()[0] }}<br>{{ date.split()[1] }}
+        </div>
+        {% endfor %}
+    </div>
+    <table class="appointments">
+        <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Horário</th>
+                <th>Tempo de Espera</th>
+                <th>Sinais Vitais</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(8, 17) %}
+            <tr class="appointment" data-time="{{ i }}:00" onclick="selectAppointment(this)">
+                <td>Ariane<br>Feminino, 32 anos</td>
+                <td>{{ i }}:00</td>
+                <td><span class="wait-time">40 Mins</span></td>
+                <td><button class="vitals-button">Vitais</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

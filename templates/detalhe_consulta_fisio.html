@@ -1,0 +1,88 @@
+{% extends "_base.html" %}
+{% block content %}
+{% set status_class = 'bg-green-800'
+        %} {% if consulta.status == 'Concluida' %} {% set status_class =
+        'bg-green-800' %} {% elif consulta.status == 'Pendente' %} {% set
+        status_class = 'bg-yellow-600' %} {% elif consulta.status ==
+        'Cancelado' %} {% set status_class = 'bg-red-600' %} {% endif %}
+<main class="flex flex-col ml-5 w-full h-full max-md:ml-0 max-md:w-full relative">
+  {% set title = "Detalhes da Consulta" %} {% include "_backbutton.html" %}
+  <div class="flex gap-4 w-full h-full mt-10">
+    <div class="w-1/2 h-full flex flex-col py-1 bg-white relative rounded-3xl shadow-[0px_5px_10px_rgba(0,0,0,0.4)]">
+      <time datetime="2024-03-15"
+          class="absolute -top-6 left-80 m-auto z-10 px-6 py-2 max-w-full text-2xl font-semibold text-white whitespace-nowrap bg-blue-800 rounded-lg max-md:px-5 max-md:mt-10 max-md:text-4xl">
+          {{ consulta.date_appointment.strftime('%d/%m/%Y') }}
+        </time>
+        <article class="absolute right-10 top-4 px-4 py-2 {{status_class}} rounded-lg text-white font-semibold">
+          {{ consulta.status }}
+        </article>
+        <form class="grid grid-cols-2  gap-6 px-4 items-center mt-10 w-full text-lg font-medium max-md:max-w-full">
+          <div class="flex flex-col gap-2 flex-1 grow shrink-0 basis-0 w-full">
+            <label for="patient-name" class="z-10 self-start text-zinc-600">Paciente</label>
+            <input type="text" id="patient-name" value="{{ consulta.pacient_name }}" readonly
+              class="px-1 py-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <div class="flex flex-col gap-2 flex-1 grow shrink-0 whitespace-nowrap basis-0 w-full">
+            <label for="patient-cpf" class="z-10 self-start mt-0 text-zinc-600">CPF</label>
+            <input type="text" id="patient-cpf" value="{{ consulta.cpf }}" readonly
+              class="px-1 py-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <div class="flex flex-col gap-2 flex-1 grow shrink-0 self-start mt-1.5 basis-0 w-full">
+            <label for="patient-email" class="z-10 self-start -mt-1.5 text-zinc-600">Email</label>
+            <input type="email" id="patient-email" value="{{ consulta.email }}" readonly
+              class="px-1 py-2 whitespace-nowrap bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <div class="flex overflow-hidden flex-col gap-2 flex-1 grow shrink-0 basis-0 w-full">
+            <label for="patient-dob" class="self-start text-zinc-600">Data de nascimento</label>
+            <input type="text" id="patient-dob" value="{{ consulta.paciente_info.birth_date }}" readonly
+              class="px-1 py-2 whitespace-nowrap bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <div class="flex flex-col gap-2 flex-1 grow shrink-0 basis-0 w-full">
+            <label for="patient-phone" class="z-10 self-start -mt-1.5 text-zinc-600">Telefone</label>
+            <input type="tel" id="patient-phone" value="{{ consulta.paciente_info.mobile }}" readonly
+              class="px-1 py-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <div class="flex flex-col gap-2 flex-1 grow shrink-0 basis-0 w-full">
+            <label for="patient-gender" class="z-10 self-start -mt-1.5 text-zinc-600">Gênero</label>
+            <input type="text" id="patient-gender" value="{{ consulta.paciente_info.gender }}" readonly
+              class="px-1 py-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <div class="flex flex-col gap-2 flex-1 grow shrink-0 basis-0 w-full">
+            <label for="consultation-time" class="self-start text-zinc-600">Horário da Consulta</label>
+            <input type="text" id="consultation-time" value="{{ consulta.hour_appointment }}" readonly
+              class="px-1 py-2 whitespace-nowrap bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <div class="flex flex-col gap-2 flex-1 grow shrink-0 self-start mt-2 basis-0 w-full">
+            <label for="consultation-type" class="z-10 self-start -mt-1.5 text-zinc-600">Tipo de Consulta</label>
+            <input type="text" id="consultation-type" value="{{ consulta.type }}" readonly
+              class="px-1 py-2 whitespace-nowrap bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <div class="flex flex-col gap-2 flex-1 grow shrink-0 basis-0 w-full">
+            <label for="saturation" class="self-start text-zinc-600">Saturação</label>
+            <input type="text" id="saturation" value="90%" readonly
+              class="px-1 py-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <div class="flex flex-col gap-2 flex-1 grow shrink-0 self-start mt-2 basis-0 w-full">
+            <label for="temperature" class="z-10 self-start mt-0 text-zinc-600">Temperatura</label>
+            <input type="text" id="temperature" value="36°" readonly
+              class="px-1 py-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+          </div>
+          <a href="{{ url_for('detalhe_orientacao_fisioterapeuta', consulta_id=consulta._id) }}" class="cursor-pointer py-3 hover:bg-blue-400 px-4 col-span-2">
+            <div class="baixar-pdf">Orientação</div>
+          </a>
+        </form>
+    </div>
+
+    <div class="flex items-center justify-center">
+      <video
+        src="/static/libras/detalhes_orientacao.mp4"
+        autoplay
+        loop
+        playsinline
+        muted
+        class="w-[20rem] h-[30rem]"
+      ></video>
+    </div>
+  </div>
+</main>
+{% endblock %}

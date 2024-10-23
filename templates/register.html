@@ -1,0 +1,112 @@
+{% extends "_base.html" %} {% block content %}
+
+<main class="w-screen h-full flex gap-2">
+  <div class="w-1/2 h-full p-4">
+    <h1 class="text-5xl font-bold">Cadastre-se</h1>
+    <form action="/register" method="post" class="mt-4 flex flex-col gap-4">
+      <!-- Usertype -->
+      <div class="flex gap-2">
+        {% for subfield in form.role %}
+        <div>
+          {{ subfield(class="form-check-input") }} 
+          {{ subfield.label }}
+        </div>
+        {% endfor %} {% if form.role.errors %} {% for error in
+        form.role.errors %}
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endfor %} {% endif %}
+      </div>
+      <!-- Name -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          {{ form.nome.label }} {{ form.nome(placeholder="Pafuncio Pafuncio",
+          class="px-4 py-2 border-black border-b-2 outline-none
+          focus:border-blue-500 transition-colors") }} {% if
+          form.nome.errors %} {% for error in form.nome.errors %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+          {% endfor %} {% endif %}
+        </div>
+        <!-- CPF -->
+        <div class="flex flex-col gap-2">
+          {{ form.cpf.label }} {{ form.cpf(placeholder="xxxxxxxxxxx", class="px-4
+          py-2 border-black border-b-2 outline-none focus:border-blue-500
+          transition-colors",maxlength=14,id="cpf-input") }} {% if form.cpf.errors %} {% for
+          error in form.cpf.errors %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+          {% endfor %} {% endif %}
+        </div>
+        <!-- E-mail -->
+        <div class="flex flex-col gap-2">
+          {{ form.email.label }} {{ form.email(placeholder="teste@gmail.com",
+          class="px-4 py-2 border-black border-b-2 outline-none
+          focus:border-blue-500 transition-colors") }} {% if
+          form.email.errors %} {% for error in form.email.errors %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+          {% endfor %} {% endif %}
+        </div>
+        <!-- Birth date -->
+        <div class="flex flex-col gap-2">
+          {{ form.birth_date.label }} {{
+          form.birth_date(placeholder="teste@gmail.com", class="px-4 py-2
+          border-black border-b-2 outline-none focus:border-blue-500
+          transition-colors") }} {% if form.birth_date.errors %} {%
+          for error in form.birth_date.errors %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+          {% endfor %} {% endif %}
+        </div>
+        <!-- Gender -->
+        <div class="flex flex-col gap-2">
+          {{ form.gender.label }} {{ form.gender(placeholder="teste@gmail.com",
+          class="px-4 py-2 border-black border-b-2 outline-none
+          focus:border-blue-500 transition-colors") }} {% if
+          form.gender.errors %} {% for error in form.gender.errors %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+          {% endfor %} {% endif %}
+        </div>
+        <!-- Mobile -->
+        <div class="flex flex-col gap-2">
+          {{ form.mobile.label }} {{ form.mobile(placeholder="11987728201",
+          class="px-4 py-2 border-black border-b-2 outline-none
+          focus:border-blue-500 transition-colors", id="mobile-input") }} {% if
+          form.mobile.errors %} {% for error in form.mobile.errors %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+          {% endfor %} {% endif %}
+        </div>
+        <!-- Password -->
+        <div class="flex flex-col gap-2">
+          {{ form.password.label }} {{ form.password(placeholder="*********",
+          class="px-4 py-2 border-black border-b-2 outline-none
+          focus:border-blue-500 transition-colors") }} {% if
+          form.password.errors %} {% for error in form.password.errors %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+          {% endfor %} {% endif %}
+        </div>
+        <!-- Confirm Password -->
+        <div class="flex flex-col gap-2">
+          {{ form.confirm_password.label }} {{ form.confirm_password(placeholder="*********",
+          class="px-4 py-2 border-black border-b-2 outline-none
+          focus:border-blue-500 transition-colors") }} {% if
+          form.confirm_password.errors %} {% for error in form.password.errors %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+          {% endfor %} {% endif %}
+        </div>
+      </div>
+      <button type="submit" class="bg-blue-600 px-4 py-2 text-xl text-white font-bold rounded-md w-1/2 m-auto">Cadastrar</button>
+    </form>
+
+    <p class="text-center mt-3"> Já possui uma conta? <a class="blue-text" href="{{ url_for('login') }}">Entrar</a></p>
+  </div>
+  <div class="w-1/2 bg-blue-500"></div>
+</main>
+{% block js %}
+<script>
+  // Aplicar a máscara no campo CPF
+  $(document).ready(function(){
+    $('#cpf-input').mask('999.999.999-99');  // Máscara para CPF
+  });
+  $(document).ready(function(){
+    $('#mobile-input').mask('(11) 11111-1111');  // Máscara para CPF
+  });
+</script>
+{% endblock %}
+{% endblock %}

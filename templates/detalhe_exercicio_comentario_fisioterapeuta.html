@@ -1,0 +1,32 @@
+{% extends "_base.html" %} {% block content %}
+<main class="flex flex-col gap-10">
+  <div class="flex items-center space-x-52">
+    <button onclick="window.history.back()">
+      <i
+        class="fa fa-arrow-circle-o-left text-5xl"
+        aria-hidden="true"
+        style="color: #2163eb"
+      ></i>
+    </button>
+    <h1 class="text-3xl font-bold">Exercicios da Consuta</h1>
+  </div>
+
+  <form action="/fisioterapeuta/adicionar_exercicio/{{exercicios._id}}/{{consulta_id}}" method="post"  class="flex gap-16">
+    <div class="flex flex-col gap-4 items-center relative mt-10">
+      <h1 class="absolute -top-6 text-3xl font-bold bg-blue-600 px-4 py-2 text-white rounded-lg text-center max-w-96">{{ exercicios.name }}</h1>
+      <video src="/static/exercise/{{exercicios.video}}" autoplay loop muted class="w-[50rem] h-[30rem]"></video>
+      <button type="submit" class="text-2xl font-bold bg-blue-600 px-4 py-2 text-white rounded-lg text-center">Adicionar</button>
+    </div>
+    <!-- Comentário -->
+     <div>
+      <h1 class="text-3xl font-bold">Comentários</h1>
+      <div class="flex flex-col gap-4 items-center relative mt-10">
+          <textarea name="comment" id="comment" class="h-56 w-42 resize-none text-xl border-2">
+
+          </textarea>
+      </div>
+     </div>
+  </form>
+</main>
+
+{% endblock %}

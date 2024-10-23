@@ -1,0 +1,94 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<!-- <div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4"> -->
+    <main class="form-signin w-100 m-auto">
+      <!-- <form role="form" method="post" action=""> -->
+        {{ form.csrf_token }}
+        <!-- <h1 class="h3 mb-3 fw-normal text-center">Please sign in</h1> -->
+
+
+        <section class="login-container"></section>
+        <div class="content-wrapper">
+          <div class="two-column-layout">
+            <div class="left-column">
+              <div class="login-form-container">
+                <div class="form-content">
+                  <h1 class="welcome-text">Bem vindo ao <span class="blue-text">ASA</span>!</h1>                
+                    <form class="cpf-input-container" method="post" action="{{ url_for('login') }}">
+                      <!-- <label for="cpfInput" class="input-label">Digite seu CPF</label>
+                      <input type="text" id="cpfInput" class="" placeholder="CPF" aria-label="Digite seu CPF"> -->
+                      <div class="input-label form-group">
+                        {{ form.usertype.label(class="input-label")  }}
+                        <div>
+                          {% for subfield in form.usertype %}
+                            <div class="form-check">
+                              {{ subfield(class="form-check-input") }}
+                              {{ subfield.label(class="form-check-label") }}
+                            </div>
+                          {% endfor %}
+                        </div>
+                        {% if form.usertype.errors %}
+                          {% for error in form.usertype.errors %}
+                          <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                          </div>
+                          {% endfor %}
+                        {% endif %}
+                      </div>
+                      <div class= "input-label form-floating">
+                        {{ form.username(placeholder="username", class="cpf-input form-control mb-2",maxlength=11) }}
+                        {{ form.username.label }}
+                          {% if form.username.errors %}
+                            {% for error in form.username.errors %}
+                            <div class="alert alert-danger" role="alert">
+                              {{ error }}
+                            </div>
+                            {% endfor %}
+                          {% endif %}
+                      </div>
+        
+        
+                      <!-- <label for="senhaInput" class="input-label">Senha</label>
+                      <input type="password" id="senhaInput" class="cpf-input" placeholder="Senha" aria-label="Digite sua senha"> -->
+                     
+                      <div class="input-label form-floating">
+                        {{ form.password(placeholder="password", class="cpf-input form-control mb-2") }}
+                        {{ form.password.label }}
+                          {% if form.password.errors %}
+                            {% for error in form.password.errors %}
+                              <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                              </div>
+                            {% endfor %}
+                          {% endif %}
+                      </div>
+                      <!-- <a href="{{ url_for('login') }}">Login</a> -->
+                      <button type="submit" class="start-button">Iniciar</button>
+                  </form>
+                  <hr>
+                  <a href="{{ url_for('google.login') }}" class="btn btn-google">
+                      <img src="https://www.google.com/favicon.ico" alt="Google Icon"> Login com Google
+                    </a>
+                </div>
+              </div>
+            </div>
+            <div class="right-column">
+              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/3edc4ee991e8e33e4b719c1e54718366587aac0c73a27ed6da2e81249514eed2?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5" class="login-image" alt="ASA login illustration">
+            </div>
+          </div>
+        </div>
+      </section>
+        <p class="text-center mt-3"> Não possui uma conta? <a class="blue-text" href="{{ url_for('register') }}">Cadastrar</a></p>
+      <!-- </form> -->
+    </main>
+  <!-- </div> -->
+  <div class="col-md-4"></div>
+</div>
+
+
+
+{% endblock %}

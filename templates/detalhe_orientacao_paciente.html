@@ -1,0 +1,59 @@
+{% extends "_base.html" %}
+
+{% block head %}
+<title>Detalhes da Consulta</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+{% endblock %}
+
+{% block content %}
+<div class="details">
+    <div class="div-2">
+        <button onclick="window.history.back()">Voltar</button>
+        <div class="div-4">
+            <div class="detalhes-da-receita">Informações da orientação</div>
+            <div class="div-5">
+                <div class="div-6">
+                    <div class="column">
+                        <div class="div-7">
+                            <img loading="lazy"
+                                srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/309d7efb42875c3788e3064abf1b285e6f1585eb1b6335a5e73e9ca8cdb6a8cb?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/309d7efb42875c3788e3064abf1b285e6f1585eb1b6335a5e73e9ca8cdb6a8cb?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/309d7efb42875c3788e3064abf1b285e6f1585eb1b6335a5e73e9ca8cdb6a8cb?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/309d7efb42875c3788e3064abf1b285e6f1585eb1b6335a5e73e9ca8cdb6a8cb?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/309d7efb42875c3788e3064abf1b285e6f1585eb1b6335a5e73e9ca8cdb6a8cb?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/309d7efb42875c3788e3064abf1b285e6f1585eb1b6335a5e73e9ca8cdb6a8cb?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/309d7efb42875c3788e3064abf1b285e6f1585eb1b6335a5e73e9ca8cdb6a8cb?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/309d7efb42875c3788e3064abf1b285e6f1585eb1b6335a5e73e9ca8cdb6a8cb?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5"
+                                class="img-4" />
+                            <div class="agendamento-de-consulta-2">
+                                Agendamento de Consulta
+                            </div>
+                            <img loading="lazy"
+                                srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/6022781db9fe9b314c4f3a1d3d1671c60d7fcc98787e3e5dfb4369903d8331ce?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/6022781db9fe9b314c4f3a1d3d1671c60d7fcc98787e3e5dfb4369903d8331ce?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/6022781db9fe9b314c4f3a1d3d1671c60d7fcc98787e3e5dfb4369903d8331ce?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/6022781db9fe9b314c4f3a1d3d1671c60d7fcc98787e3e5dfb4369903d8331ce?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/6022781db9fe9b314c4f3a1d3d1671c60d7fcc98787e3e5dfb4369903d8331ce?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/6022781db9fe9b314c4f3a1d3d1671c60d7fcc98787e3e5dfb4369903d8331ce?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/6022781db9fe9b314c4f3a1d3d1671c60d7fcc98787e3e5dfb4369903d8331ce?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/6022781db9fe9b314c4f3a1d3d1671c60d7fcc98787e3e5dfb4369903d8331ce?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5"
+                                class="img-5" />
+                        </div>
+                    </div>
+                    <div class="column-2">
+                        <div class="div-8"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div-9">
+            <a href="{{ url_for('exercicios_fisioterapeuta') }}" class="cursor-pointer py-3 hover:bg-blue-400 px-4">
+                <div class="baixar-pdf">Baixar PDF</div>
+            </a> 
+            <a href="{{ url_for('exercicios_fisioterapeuta') }}" class="cursor-pointer py-3 hover:bg-blue-400 px-4">
+                <div class="baixar-pdf">Adicionar exercícios</div>
+            </a> 
+            <a href="{{ url_for('exercicios_fisioterapeuta') }}" class="cursor-pointer py-3 hover:bg-blue-400 px-4">
+                <div class="baixar-pdf">Editar orientação </div>
+            </a> 
+            <div class="div-10">
+                <img loading="lazy"
+                    srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/aea290ed4b09ae5e32c96eb684b26fb964053f2cae8b5511019f741e0fc83763?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/aea290ed4b09ae5e32c96eb684b26fb964053f2cae8b5511019f741e0fc83763?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/aea290ed4b09ae5e32c96eb684b26fb964053f2cae8b5511019f741e0fc83763?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/aea290ed4b09ae5e32c96eb684b26fb964053f2cae8b5511019f741e0fc83763?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/aea290ed4b09ae5e32c96eb684b26fb964053f2cae8b5511019f741e0fc83763?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/aea290ed4b09ae5e32c96eb684b26fb964053f2cae8b5511019f741e0fc83763?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/aea290ed4b09ae5e32c96eb684b26fb964053f2cae8b5511019f741e0fc83763?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/aea290ed4b09ae5e32c96eb684b26fb964053f2cae8b5511019f741e0fc83763?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5"
+                    class="img-6" />
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

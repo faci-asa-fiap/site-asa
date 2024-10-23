@@ -1,0 +1,24 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg p-3 h-[10%]" data-bs-theme="dark">
+  <div class="container-fluid">
+    <h1 class="logo-text">ASA</h1>
+    <!-- <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/1eb4c1452a9e11f26ffd9229d579b3353b5ddabe969160477f062f670d01ea42?placeholderIfAbsent=true&apiKey=7b1c29c733ff4c39b0192a97a3a9abc5" alt="ASA Logo" class="logo-image" /> -->
+    {% if current_user.is_authenticated %}
+      <img src="/static/funcionalidade_logo.png" alt="ASA Logo" class="img-4" />
+    {% else %}
+      <img src="/static/logo.png" alt="ASA Logo" class="logo-image" />
+    {% endif %}
+    <div>
+      <div class=" navbar-collapse" id="navbarSupportedContent">
+        {% if current_user.is_authenticated %}
+        <form action="{{ url_for('logout') }}" method="GET" class="flex gap-2 items-center">
+          <p class="text-white">Olá, {{ current_user.nome }}</p>
+          <button type="submit" style="background: none; border: none; cursor: pointer;">
+            <i class="fa fa-sign-out" aria-hidden="true" style="color: #ffffff;"></i>
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,136 @@
+{% extends "_base.html" %} {% block content %}
+<main>
+  <!-- Próxima consulta -->
+  <h1 class="text-3xl font-bold">Próxima consulta</h1>
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase">
+        <tr>
+          <th scope="col" class="px-6 py-3">Nome do médico(a)</th>
+          <th scope="col" class="px-6 py-3">Data da consulta</th>
+          <th scope="col" class="px-6 py-3">Horário da consulta</th>
+          <th scope="col" class="px-6 py-3">Tipo da consulta</th>
+          <th scope="col" class="px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">
+            <span class="sr-only">Edit</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if next_appointments %}
+        {% for next_appointment in next_appointments %}
+        <tr class="bg-white border-b hover:bg-gray-100">
+          <th
+            scope="row"
+            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+          >
+            {{ next_appointment['health_info']['name'] }}
+          </th>
+          <td class="px-6 py-4 text-black">
+            {{ next_appointment.date_appointment.strftime('%d/%m/%Y')}}
+          </td>
+          <td class="px-6 py-4 text-black">
+            {{ next_appointment.hour_appointment }}
+          </td>
+          <td class="px-6 py-4 text-black">{{ next_appointment.type }}</td>
+          <td
+            class="px-6 py-4" style="color: #ff7b17"
+          >
+          <i class="fa fa-clock-o" aria-hidden="true" style="color: #ff7b17"></i> {{ next_appointment.status }}
+          </td>
+          <td class="px-6 py-4 text-right">
+            <a href="{{ url_for('detalhe_orientacao_fisioterapeuta', consulta_id=next_appointment._id) }}" class="font-medium text-blue-600 hover:underline"
+              ><i class="fa fa-eye" aria-hidden="true" style="color: #2163EB;"></i>
+               Detalhes</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="5" class="text-center py-4">
+            Nenhuma consulta agendada
+          </td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+  <!-- Histórico de cosultas -->
+  <h1 class="text-3xl font-bold mt-10">Historico de consulta</h1>
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase">
+        <tr>
+          <th scope="col" class="px-6 py-3">Nome do médico(a)</th>
+          <th scope="col" class="px-6 py-3">Data da consulta</th>
+          <th scope="col" class="px-6 py-3">Horário da consulta</th>
+          <th scope="col" class="px-6 py-3">Tipo da consulta</th>
+          <th scope="col" class="px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">
+            <span class="sr-only">Detalhes</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if appointments %}
+        {% for appointment in appointments %} {% set status_class = 'text-black'
+        %} {% if appointment.status == 'Concluida' %} {% set status_class =
+        'text-green-800' %} {% elif appointment.status == 'Pendente' %} {% set
+        status_class = 'text-yellow-600' %} {% elif appointment.status ==
+        'Cancelado' %} {% set status_class = 'text-red-600' %} {% endif %}
+        <tr class="bg-white border-b hover:bg-gray-100">
+          <th
+            scope="row"
+            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+          >
+            {{ appointment['health_info']['name'] }}
+          </th>
+          <td class="px-6 py-4 text-black">
+            {{ appointment.date_appointment.strftime('%d/%m/%Y')}}
+          </td>
+          <td class="px-6 py-4 text-black">
+            {{ appointment.hour_appointment }}
+          </td>
+          <td class="px-6 py-4 text-black">{{ appointment.type }}</td>
+          <td
+            class="px-6 py-4 {{ status_class }}
+      "
+          >
+            {% if appointment.status == 'Concluida' %}
+            <i
+              class="fa fa-check"
+              aria-hidden="true"
+              style="color: #00a841"
+            ></i>
+            {{ appointment.status }}
+            {% elif appointment.status == 'Cancelado'  %}
+            <i class="fa fa-times" aria-hidden="true" style="color: #b81414"></i> 
+            {{ appointment.status }} 
+            {% else %}
+            <i class="fa fa-clock-o" aria-hidden="true" style="color: #ff7b17"></i>
+              {{ appointment.status }}
+            {% endif %}
+          </td>
+          <td class="px-6 py-4 text-right">
+            <a href="{{ url_for('detalhe_orientacao_fisioterapeuta', consulta_id=appointment._id) }}" class="font-medium text-blue-600 hover:underline"
+              ><i class="fa fa-eye" aria-hidden="true" style="color: #2163EB;"></i> Detalhes</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="5" class="text-center py-4">
+            Nenhuma consulta agendada
+          </td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</main>
+
+{% endblock %}

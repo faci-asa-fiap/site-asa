@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+{% block content %}
+<h2>Adicionar Exercícios à esta consulta</h2>
+<div class="search-bar">
+    <input type="text" placeholder="Pesquisar por nome de exercício">
+</div>
+<div class="exercise-container">
+    {% for exercicio in exercicios %}
+    <a class="exercise-card" href="{{ url_for('detalhe_exercicio_comentario_fisioterapeuta', consulta_id=consulta_id, exercicio_id=exercicio._id) }}">
+        <video src="/static/exercise/{{exercicio.video}}" autoplay loop muted>
+        </video>
+        <h2 class="text-lg font-semibold positio">{{ exercicio.name }}</h2>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
