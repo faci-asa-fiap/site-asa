@@ -61,7 +61,7 @@
                     audioFileName = 'audio_' + Date.now() + '.webm';
                     formData.append('audio', audioBlob, audioFileName);
 
-                    fetch('/upload', {
+                    fetch('/fisioterapeuta/upload', {
                         method: 'POST',
                         body: formData
                     })
@@ -102,7 +102,7 @@
     }
 
     function transcribeAudio() {
-        fetch('/transcribe', {
+        fetch('/fisioterapeuta/transcribe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ filename: audioFileName })
