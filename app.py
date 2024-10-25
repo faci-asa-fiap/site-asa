@@ -74,9 +74,12 @@ def transcricao():
 
 @app.route("/upload", methods=["POST"])
 def upload():
+    print(request)
+    print(request.files)
     if 'audio' in request.files:
         audio = request.files['audio']
         file_path = os.path.join(UPLOAD_FOLDER, audio.filename)
+        print(file_path)
         audio.save(file_path)
         return "Áudio recebido e armazenado com sucesso!", 200
     return "Nenhum áudio recebido", 400
