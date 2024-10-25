@@ -86,10 +86,12 @@ def upload():
 
 @app.route("/fisioterapeuta/transcribe", methods=["POST"])
 def transcribe():
+    print(request)
     data = request.json
     file_name = data.get('filename')
+    print(file_name)
     file_path = os.path.join(UPLOAD_FOLDER, file_name)
-
+    print(file_path)
     if os.path.exists(file_path):
         
         model = whisper.load_model("base")
