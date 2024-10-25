@@ -22,7 +22,9 @@ def create_pacient(name, email, birth_date, gender, mobile,cpf, password, google
         "password": generate_password_hash(password, method="pbkdf2:sha256") if password else None,
         "google_id": google_id,
         "created_at": datetime.now().isoformat(),
-        "updated_at": datetime.now().isoformat()
+        "updated_at": datetime.now().isoformat(),
+        "sat":0,
+        "temp":0
     }
     return mongo.db.paciente.insert_one(user)
 

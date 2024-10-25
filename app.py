@@ -96,7 +96,9 @@ def transcribe():
         
         model = whisper.load_model("base")
         result = model.transcribe(file_path)
+        print(result)
         transcription = result['text']
+        print(transcription)
         return transcription, 200
     else:
         return "Arquivo não encontrado", 404
