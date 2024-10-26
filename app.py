@@ -89,8 +89,9 @@ def transcribe():
     print(request)
     data = request.json
     file_name = data.get('filename')
+    path = "/app/uploads/"
     print(file_name)
-    file_path = os.path.join(UPLOAD_FOLDER, file_name)
+    file_path = path + file_name
     print(file_path)
     if os.path.exists(file_path):
         
