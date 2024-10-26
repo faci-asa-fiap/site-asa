@@ -78,8 +78,7 @@ def upload():
     print(request.files)
     if 'audio' in request.files:
         audio = request.files['audio']
-        path = "/app/uploads/"
-        file_path = file_path = path + audio
+        file_path = os.path.join(UPLOAD_FOLDER, audio.filename)
         print(file_path)
         audio.save(file_path)
         return "Áudio recebido e armazenado com sucesso!", 200
@@ -90,9 +89,9 @@ def transcribe():
     print(request)
     data = request.json
     file_name = data.get('filename')
-    path = "/app/uploads/"
+    path = "/app/uploads"
     print(file_name)
-    file_path = path + file_name
+    file_path = os.path.join(UPLOAD_FOLDER, file_name)
     print(file_path)
     if os.path.exists(file_path):
         
