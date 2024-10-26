@@ -101,11 +101,11 @@
           <div class="flex flex-wrap gap-7 mt-5 whitespace-nowrap max-md:max-w-full">
             <div class="flex flex-col flex-1 grow shrink-0 basis-0 w-fit">
               <label for="saturation" class="self-start text-zinc-600">Saturação</label>
-              <input type="text" id="saturation" value="90%" readonly class="px-1 pt-5 pb-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+              <input type="text" id="saturation" value="{{consulta.sat}}" readonly class="px-1 pt-5 pb-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
             </div>
             <div class="flex flex-col flex-1 grow shrink-0 self-start mt-2 basis-0 w-fit">
               <label for="temperature" class="z-10 self-start mt-0 text-zinc-600">Temperatura</label>
-              <input type="text" id="temperature" value="36°" readonly class="px-1 pt-5 pb-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
+              <input type="text" id="temperature" value="{{consulta.temp}}°" readonly class="px-1 pt-5 pb-2 bg-white border-b border-neutral-400 text-stone-400 max-md:pr-5" />
             </div>
           </div>
           <!-- <button type="button" class="self-center px-16 pt-3 pb-5 mt-7 max-w-full text-2xl font-semibold text-white whitespace-nowrap bg-blue-800 rounded-[40px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] w-[773px] max-md:px-5">

@@ -185,7 +185,9 @@ def agenda_consulta_paciente():
             "email": current_user.email,
             "pacient_name": current_user.nome,
             "post_guidance": "",
-            "exercise": []
+            "exercise": [],
+            "sat":0,
+            "temp":0
         }
         print(data)
         create_appointment(data)
@@ -233,7 +235,6 @@ def exercicios_fisioterapeuta(consulta_id):
 @login_required
 def detalhe_consulta_fisio(consulta_id):
     consultas = get_all_appointment_by_id(consulta_id)
-    print(consultas[0])
     return render_template('detalhe_consulta_fisio.html', consulta=consultas[0])
 
 @app.route('/fisioterapeuta/detalhe_orientacao/<consulta_id>', methods=['GET', 'POST'])
@@ -243,11 +244,15 @@ def detalhe_orientacao_fisioterapeuta(consulta_id):
     print(consulta)
     if request.method == 'POST':
         post_guidance = request.form.get('post_guidance')
+        print(post_guidance)
+        if post_guidance == '':
+            flash('Por favor, preencha o campo de orientação', 'error')
+            return redirect(f'/fisioterapeuta/detalhe_orientacao/{consulta_id}')
         data = {
             "post_guidance": post_guidance.strip()
         }
         update_appointment(consulta_id, data)
-        return redirect('/fisioterapeuta/historico')
+        return redirect(f'/fisioterapeuta/detalhe_orientacao/{consulta_id}')
     return render_template('detalhe_orientacao_fisioterapeuta.html', consulta=consulta,consulta_id=consulta_id)
 
 @app.route('/fisioterapeuta/detalhe_orientacao_comentario/<consulta_id>')
@@ -392,6 +397,9 @@ def login():
             return redirect(url_for('login'))
 
         valid, user_data = compare_password(cpf, password, user_type)
+        if not valid:
+            flash("CPF ou senha inválidos", "error")
+            return redirect(url_for('login'))
         if valid:
             role = 'paciente' if user_type == 'paciente' else 'fisioterapeuta'
             crefito = user_data.get('crefito') if role == 'fisioterapeuta' else None
@@ -408,8 +416,8 @@ def login():
                 data_atualizacao=user_data['updated_at'],
                 role=role,
                 data_nascimento=user_data['birth_date'],
-                crefito=crefito,  # Adiciona o campo exclusivo do profissional
-                status=status  # Adiciona o campo exclusivo do profissional
+                crefito=crefito,
+                status=status
             )
             login_user(user)
             flash("Login realizado com sucesso", "success")
@@ -453,7 +461,7 @@ def register():
 @app.route("/fisioterapeuta/pacientes")
 @login_required
 def list_pacientes():
-    cpf = request.args.get('cpf')  # Captura o CPF da query string
+    cpf = request.args.get('cpf')
 
     # Se o CPF for passado na URL, filtra por ele; caso contrário, exibe todos
     if cpf:

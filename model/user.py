@@ -23,8 +23,7 @@ def create_pacient(name, email, birth_date, gender, mobile,cpf, password, google
         "google_id": google_id,
         "created_at": datetime.now().isoformat(),
         "updated_at": datetime.now().isoformat(),
-        "sat":0,
-        "temp":0
+
     }
     return mongo.db.paciente.insert_one(user)
 
@@ -260,6 +259,7 @@ def get_all_appointment_by_id(appointment_id):
     ]
 
     appointment = list(mongo.db.consulta.aggregate(pipeline))
+    print(appointment)
     return appointment
 def update_appointment(appointment_id, data):
     return mongo.db.consulta.update_one({"_id": ObjectId(appointment_id)}, {"$set": data})
