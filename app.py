@@ -95,6 +95,8 @@ def transcribe():
     if os.path.exists(file_path):
         
         model = whisper.load_model("base")
+        print(model)
+        print("passei")
         result = model.transcribe(file_path)
         print(result)
         transcription = result['text']
