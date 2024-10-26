@@ -78,7 +78,8 @@ def upload():
     print(request.files)
     if 'audio' in request.files:
         audio = request.files['audio']
-        file_path = os.path.join(UPLOAD_FOLDER, audio.filename)
+        path = "/app/uploads/"
+        file_path = file_path = path + audio
         print(file_path)
         audio.save(file_path)
         return "Áudio recebido e armazenado com sucesso!", 200
