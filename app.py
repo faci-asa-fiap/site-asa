@@ -72,7 +72,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def transcricao():
     return render_template('transcricao.html')
 
-@app.route("/fisioterapeuta/upload", methods=["POST"])
+@app.route("/fisioterapeuta/upload", methods=["POST", "GET"])
 def upload():
     print(request)
     print(request.files)
@@ -84,7 +84,7 @@ def upload():
         return "Áudio recebido e armazenado com sucesso!", 200
     return "Nenhum áudio recebido", 400
 
-@app.route("/fisioterapeuta/transcribe", methods=["POST"])
+@app.route("/fisioterapeuta/transcribe", methods=["POST", "GET"])
 def transcribe():
     print(request)
     data = request.json
