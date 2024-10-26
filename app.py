@@ -389,6 +389,7 @@ def login():
     form = LoginForm()
     if request.method == "POST":
         cpf = request.form.get("cpf")
+        print(cpf)
         password = request.form.get("password")
         user_type = request.form.get("usertype")
 
@@ -419,6 +420,7 @@ def login():
                 crefito=crefito,
                 status=status
             )
+            print(user)
             login_user(user)
             flash("Login realizado com sucesso", "success")
             return redirect(url_for('perfil'))
